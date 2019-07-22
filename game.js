@@ -5,6 +5,9 @@ window.addEventListener("keydown", function(e) {
   }
 }, false);
 
+window.onload = () => {
+var joystick = new VirtualJoystick();
+
 var canvas = document.getElementById("can");
 var ctx = canvas.getContext("2d");
 var color = "#00FFFF";
@@ -46,6 +49,7 @@ shape.prototype.update = function(){
       this.x += this.width;
       break;
   }
+
   if(this.x > canvas.width){
     this.x = 0;
   } else if(this.x < 0){
@@ -127,7 +131,7 @@ function start(){
                 if(s.nodes[0].dir!="right"){
                    s.nodes[0].dir = "left";
                 }
-                
+
                 break;
              case 38:
                 if(s.nodes[0].dir!="down"){
@@ -150,7 +154,11 @@ function start(){
              default:
                 break;
            }
+
        });
+
+
+
   var cookie = new shape(Math.floor(getRandomArbitrary(0, canvas.width/s.nodes[0].width)) * s.nodes[0].width, Math.floor(getRandomArbitrary(0, canvas.height/s.nodes[0].width)) * s.nodes[0].width, s.nodes[0].width, s.nodes[0].width, "#000000");
     
   function drawLoop(){
@@ -160,6 +168,29 @@ function start(){
       cookie.x = Math.floor(getRandomArbitrary(0, canvas.width/s.nodes[0].width)) * s.nodes[0].width;
       cookie.y = Math.floor(getRandomArbitrary(0, canvas.height/s.nodes[0].width)) * s.nodes[0].width;
     }
+
+
+
+if(joystick.up()){
+  if(s.nodes[0].dir!="down"){
+       s.nodes[0].dir = "up";
+  }
+}
+  if(joystick.right()){
+   if(s.nodes[0].dir!="left"){
+      s.nodes[0].dir = "right";
+     }
+   } 
+   if(joystick.down()){
+    if(s.nodes[0].dir!="up"){
+         s.nodes[0].dir = "down";
+       }
+    } 
+  if(joystick.left()){
+    if(s.nodes[0].dir!="right"){
+      s.nodes[0].dir = "left";
+    }
+   }
     
     s.update();
     clear();
@@ -172,6 +203,7 @@ function start(){
 
   drawLoop();
 }
-  
 }
-window.onload = start();
+start();
+}
+
